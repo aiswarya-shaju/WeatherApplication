@@ -1,0 +1,170 @@
+﻿@page "/weather"
+@using System.Text.Json
+@using WeatherApplication.BusinessLogic.Abstractions
+@inject IWeatherMap WeatherMap
+
+<PageTitle>Weather</PageTitle>
+<div>
+
+	<h1>Weather</h1>
+
+	<p class="text-black small">
+		Here we are presenting you with a platform to search the current weather of any location across the world!
+	
+		<br />
+		Please note:
+		<ul class="text-secondary small">
+			<li>
+				For temperature in Fahrenheit and wind speed in miles/hour, use units=imperial.
+			</li>
+			<li>
+
+				For temperature in Celsius and wind speed in meter/sec, use units=metric.
+			</li>
+			<li>
+				Temperature in Kelvin and wind speed in meter/sec is used by units=standard.
+			</li>
+		</ul>
+	</p>
+
+
+	@if(!string.IsNullOrEmpty(result))
+	{
+		@if (!success)
+		{
+			<p class="text-danger">
+				<span class="oi  oi-action-redo" aria-hidden="true"></span>
+				@result
+			</p>
+		}
+	}
+	<EditForm Model="@weather" OnValidSubmit="HandleOnValidSubmit" OnInvalidSubmit="HandleOnInvalidSubmit" align="left">
+		<DataAnnotationsValidator />
+		@* 	<ValidationSummary /> *@
+
+		<p>
+			<label>
+				City : 
+				<InputText @bind-Value="weather.City" />
+			</label>
+		</p>
+		<p>
+			Unit :
+			<InputSelect @bind-Value="weather.Unit">
+				<br />
+				<option value="">Select an option</option>
+				<option value="Standard">Standard</option>
+				<option value="Metric">Metric</option>
+				<option value="Imperial">Imperial</option>
+			</InputSelect>
+		</p>
+		
+		@* <p>
+			<label>
+				Last Name :
+				<InputText @bind-Value="person.LastName" />
+			</label>
+		</p>
+		<p>
+			<label>
+				Age :
+				<InputNumber @bind-Value="person.Age" />
+			</label>
+		</p>
+		<p>
+			<label>
+				Gave Consent :
+				<InputCheckbox @bind-Value="person.GaveConsent" />
+			</label>
+		</p> *@
+		<button class="btn btn-primary" type="submit">Submit</button>
+
+		<br />
+	</EditForm>
+
+	@if (success)
+	{
+		<p class="text-black-50">
+			@weather.City.ToUpper()
+		</p>
+		<ul class="text-dark small">
+			<li>Description : @weather.Description</li>
+			<li>Temperature : @weather.Temperature @weatherTempUnit</li>
+			<li>WindSpeed : @weather.WindSpeed @weatherWindUnit</li>
+			<li>Humidity : @weather.Humidity %</li>
+			@* <li>Unit : @weather.Unit</li> *@
+		</ul>
+	}
+
+</div>
+
+<style>
+	.myDiv {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-image: url('images/weatherimage.jpg');
+	opacity: .4;
+	}
+</style>
+
+@code {
+
+	public WeatherInfo weather = new WeatherInfo();
+	private string result = "";
+	bool success = false;
+	string weatherTempUnit = "";
+	string weatherWindUnit = "";
+	//PersonAgeModel person1 = new PersonAgeModel();
+
+
+	private async Task HandleOnValidSubmit()
+	{
+		if (weather.Unit == "Metric")
+		{
+			weatherTempUnit = "Celsius";
+			weatherWindUnit = "Meter/sec";
+		}
+		else if (weather.Unit == "Imperial")
+		{
+			weatherTempUnit = "Fahrenheit";
+			weatherWindUnit = "Miles/hour";
+		}
+		else
+		{
+			weatherTempUnit = "Kelvin";
+			weatherWindUnit = "Meter/sec";
+		}
+		weather.City = weather.City.Trim();
+		weather = await WeatherMap.FetchCity(weather);
+		Console.WriteLine($"Weather details for {weather.City} : {JsonSerializer.Serialize(weather)}");
+		success = true;
+		result = "A valid city name has been given";
+		//city = new CityModel();
+
+	}
+	private void HandleOnInvalidSubmit()
+	{
+		success = false;
+		result = "Please provide a valid city";
+	}
+}
+
+
+@* <p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Find</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+} *@
+

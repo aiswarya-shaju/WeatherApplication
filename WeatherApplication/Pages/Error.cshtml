@@ -1,0 +1,27 @@
+﻿@page
+@{
+    ViewData["Title"] = "Error";
+}
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            <p class="text-danger fs-4 fw-bold">Oops! Something went wrong.</p>
+            <p>If you want, try refreshing the page or come back later.</p>
+        </article>
+
+        <footer class="card-footer">
+            <div class="text-center">
+                <p class="text-sm-center small">&copy; @DateTime.Now.Year - Weather Application</p>
+            </div>
+        </footer>
+    </main>
+</div>

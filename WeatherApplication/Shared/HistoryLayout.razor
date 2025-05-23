@@ -1,0 +1,29 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Weather Application</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div>
+            <article>
+                @Body
+                <br />
+            </article>
+
+            <footer class="card-footer" float-below>
+                <div class="text-center">
+                    <p class="text-sm-center small">&copy; @DateTime.Now.Year - Weather Application</p>
+                </div>
+            </footer>
+        </div>
+
+    </main>
+</div>

@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.17" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.5" />
+	<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeatherApplication.DataAccess\WeatherApplication.DataAccess.csproj" />
+    <ProjectReference Include="..\WeatherApplication.Database\WeatherApplication.Database.sqlproj" />
+    <ProjectReference Include="..\WeatherApplication.Models\WeatherApplication.Models.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+<PageTitle>Weather Application</PageTitle>
+
+@code {
+    private string PageClass => Navigation.Uri.Contains("/userhistory") ? "no-bg-content" : "content";
+}
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div>
+            <article class="@PageClass px-4">
+                @Body
+                <br />
+            </article>
+
+            <footer class="card-footer">
+                <div class="text-center">
+                    <p class="text-sm-center small">&copy; @DateTime.Now.Year - Weather Application</p>
+                </div>
+            </footer>
+        </div>
+    </main>
+</div>

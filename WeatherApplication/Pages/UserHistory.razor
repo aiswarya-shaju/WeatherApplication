@@ -1,0 +1,65 @@
+﻿@page "/userhistory"
+@using WeatherApplication.BusinessLogic.Abstractions
+@inject IWeatherMap WeatherMap
+
+<PageTitle>User History</PageTitle>
+
+<h1>User History</h1>
+
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>City</th>
+                <th>Unit</th>
+                <th>Time</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Wind</th>
+            </tr>
+        </thead>
+        <tbody class="text-nowrap small">
+            @foreach (var forecast in forecasts.Take(10))
+            {
+                <tr class="py-0">
+                    <td>@forecast.City</td>
+                    <td>@forecast.Unit</td>
+                    <td>@forecast.Time</td>
+                    <td>@forecast.Temperature</td>
+                    <td>@forecast.Humidity</td>
+                    <td>@forecast.Wind</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+    table {/* 
+        background-color: midnightblue; */
+        color: midnightblue;
+    }
+
+    table td {
+        color: midnightblue;
+    }
+
+    table tbody tr:hover {
+        background-color: #b3d4f6b1;
+    }
+</style>
+
+ @code {
+    private List<WeatherHistory> forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await WeatherMap.GetUserHistory();
+    }
+}
